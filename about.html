@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | University Tech Society</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <style>
+        /* Custom styles for about page */
+        .about-header {
+            background: linear-gradient(rgba(11, 60, 93, 0.9), rgba(11, 60, 93, 0.95)),
+                        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: var(--spacing-xl) 0;
+            margin-top: 70px;
+            text-align: center;
+            color: var(--white);
+        }
+        
+        .about-header h1 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .about-header p {
+            color: var(--light-grey);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .about-container {
+            padding: var(--spacing-xl) 0;
+        }
+        
+        /* Mission & Vision Section */
+        .mission-vision-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .mission-card, .vision-card {
+            background: var(--white);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-medium);
+            text-align: center;
+            transition: transform var(--transition-normal);
+            border-top: 5px solid var(--accent-gold);
+        }
+        
+        .mission-card:hover, .vision-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .mission-icon, .vision-icon {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        /* Objectives Section */
+        .objectives-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .objective-item {
+            background: var(--white);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-light);
+            transition: all var(--transition-normal);
+            border-left: 4px solid var(--accent-gold);
+        }
+        
+        .objective-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .objective-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-gold);
+            color: var(--navy-blue);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        /* Team Section - Project Credits */
+        .team-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .team-member-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+            transition: all var(--transition-normal);
+            text-align: center;
+        }
+        
+        .team-member-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+        }
+        
+        .member-header {
+            background-color: var(--navy-blue);
+            padding: var(--spacing-lg);
+            color: var(--white);
+        }
+        
+        .member-avatar-large {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .member-name {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-xs);
+            color: var(--white);
+        }
+        
+        .member-role {
+            color: var(--accent-gold);
+            font-weight: 500;
+        }
+        
+        .member-body {
+            padding: var(--spacing-lg);
+        }
+        
+        .member-contributions {
+            text-align: left;
+            margin-top: var(--spacing-md);
+        }
+        
+        .member-contributions h4 {
+            color: var(--navy-blue);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.1rem;
+        }
+        
+        .contributions-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .contributions-list li {
+            padding: var(--spacing-xs) 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            position: relative;
+            padding-left: var(--spacing-md);
+        }
+        
+        .contributions-list li:before {
+            content: "✓";
+            color: var(--accent-gold);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .member-id {
+            display: inline-block;
+            background-color: var(--light-grey);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: var(--spacing-sm);
+        }
+        
+        /* Society Structure */
+        .structure-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .structure-card {
+            background: var(--white);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            transition: all var(--transition-normal);
+        }
+        
+        .structure-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .structure-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--navy-blue), var(--dark-blue));
+            color: var(--white);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .contact-cta h2 {
+            color: var(--white);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .contact-cta p {
+            color: var(--light-grey);
+            max-width: 600px;
+            margin: 0 auto var(--spacing-lg);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: var(--spacing-sm) var(--spacing-xl);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-normal);
+        }
+        
+        .cta-button.primary {
+            background-color: var(--accent-gold);
+            color: var(--navy-blue);
+        }
+        
+        .cta-button.primary:hover {
+            background-color: var(--white);
+            transform: translateY(-3px);
+        }
+        
+        .cta-button.secondary {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--accent-gold);
+        }
+        
+        .cta-button.secondary:hover {
+            background-color: var(--accent-gold);
+            color: var(--navy-blue);
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .about-header {
+                margin-top: 60px;
+                padding: var(--spacing-lg) 0;
+            }
+            
+            .about-header h1 {
+                font-size: 2rem;
+            }
+            
+            .mission-vision-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .structure-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>University Tech Society</h1>
+                    <p class="logo-subtitle">Inspired by Bahria University</p>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li class="nav-item"><a href="events.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li class="nav-item"><a href="register.html" class="nav-link"><i class="fas fa-user-plus"></i> Register</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link active"><i class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Header -->
+    <header class="about-header">
+        <div class="container">
+            <h1><i class="fas fa-info-circle"></i> About University Tech Society</h1>
+            <p>Learn about our mission, vision, objectives, and the dedicated team behind this ICT semester project.</p>
+        </div>
+    </header>
+
+    <!-- Main About Content -->
+    <main class="about-container">
+        <div class="container">
+            <!-- Mission & Vision Section -->
+            <section class="mission-vision-section">
+                <h2 class="section-title"><span class="title-icon"><i class="fas fa-bullseye"></i></span> Our Mission & Vision</h2>
+                <p class="section-subtitle">Driving technological innovation and skill development within the academic community</p>
+                
+                <div class="mission-vision-grid">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Our Mission</h3>
+                        <p>To create a vibrant ecosystem that empowers students with practical technological skills, fosters innovation, and bridges the gap between academic learning and industry requirements through hands-on workshops, collaborative projects, and networking opportunities.</p>
+                    </div>
+                    
+                    <div class="vision-card">
+                        <div class="vision-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Our Vision</h3>
+                        <p>To become the leading student-run technology society that cultivates future tech leaders, drives digital transformation in education, and creates a sustainable impact on the technological landscape of Pakistan and beyond.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Objectives Section -->
+            <section class="objectives-section">
+                <h2 class="section-title"><span class="title-icon"><i class="fas fa-tasks"></i></span> Our Core Objectives</h2>
+                <p class="section-subtitle">Key goals that guide our activities and initiatives</p>
+                
+                <div class="objectives-grid">
+                    <div class="objective-item">
+                        <div class="objective-number">1</div>
+                        <h3>Skill Development</h3>
+                        <p>Provide hands-on training in emerging technologies like AI, web development, cybersecurity, and data science through workshops and bootcamps.</p>
+                    </div>
+                    
+                    <div class="objective-item">
+                        <div class="objective-number">2</div>
+                        <h3>Industry Connection</h3>
+                        <p>Bridge the gap between academia and industry through guest lectures, industry visits, and internship opportunities with tech companies.</p>
+                    </div>
+                    
+                    <div class="objective-item">
+                        <div class="objective-number">3</div>
+                        <h3>Research & Innovation</h3>
+                        <p>Foster research culture by encouraging projects, hackathons, and innovation challenges that solve real-world problems.</p>
+                    </div>
+                    
+                    <div class="objective-item">
+                        <div class="objective-number">4</div>
+                        <h3>Community Building</h3>
+                        <p>Create a supportive network where students can collaborate, share knowledge, and grow together in their tech journeys.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Project Team Section -->
+            <section class="team-section">
+                <h2 class="section-title"><span class="title-icon"><i class="fas fa-users"></i></span> Project Development Team</h2>
+                <p class="section-subtitle">This website was developed by the following ICT students for their semester project</p>
+                
+                <div class="team-grid">
+                    <!-- Team Member 1 - Project Lead -->
+                    <div class="team-member-card">
+                        <div class="member-header">
+                            <div class="member-avatar-large">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <h3 class="member-name">Ali Raza</h3>
+                            <p class="member-role">Project Lead & Full Stack Developer</p>
+                            <div class="member-id">BU-123458</div>
+                        </div>
+                        <div class="member-body">
+                            <p>Led the complete development of the University Tech Society website from concept to deployment.</p>
+                            
+                            <div class="member-contributions">
+                                <h4>Key Contributions:</h4>
+                                <ul class="contributions-list">
+                                    <li>Project planning and architecture design</li>
+                                    <li>Backend structure and database design</li>
+                                    <li>JavaScript functionality implementation</li>
+                                    <li>GitHub Pages deployment setup</li>
+                                    <li>Overall project coordination</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 2 - UI/UX Designer -->
+                    <div class="team-member-card">
+                        <div class="member-header">
+                            <div class="member-avatar-large">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <h3 class="member-name">Ayesha Khan</h3>
+                            <p class="member-role">UI/UX Designer & Frontend Developer</p>
+                            <div class="member-id">BU-123457</div>
+                        </div>
+                        <div class="member-body">
+                            <p>Designed the complete user interface and user experience for the website with a focus on accessibility.</p>
+                            
+                            <div class="member-contributions">
+                                <h4>Key Contributions:</h4>
+                                <ul class="contributions-list">
+                                    <li>Complete website design and wireframing</li>
+                                    <li>Color scheme and typography selection</li>
+                                    <li>Responsive design implementation</li>
+                                    <li>CSS animations and transitions</li>
+                                    <li>User interface testing and optimization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 3 - Content Developer -->
+                    <div class="team-member-card">
+                        <div class="member-header">
+                            <div class="member-avatar-large">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <h3 class="member-name">Sara Fatima</h3>
+                            <p class="member-role">Content Developer & Documentation Specialist</p>
+                            <div class="member-id">BU-123459</div>
+                        </div>
+                        <div class="member-body">
+                            <p>Created all website content, documentation, and ensured academic compliance with project requirements.</p>
+                            
+                            <div class="member-contributions">
+                                <h4>Key Contributions:</h4>
+                                <ul class="contributions-list">
+                                    <li>Website content creation and copywriting</li>
+                                    <li>Project documentation and README file</li>
+                                    <li>Academic requirement compliance checking</li>
+                                    <li>Quality assurance and proofreading</li>
+                                    <li>Presentation and viva preparation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Member 4 - YOUR NAME (Frontend Developer) -->
+                    <div class="team-member-card">
+                        <div class="member-header">
+                            <div class="member-avatar-large">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <h3 class="member-name">Muhammad Ahmed</h3>
+                            <p class="member-role">Frontend Developer & ICT Project Lead</p>
+                            <div class="member-id">BU-123456</div>
+                        </div>
+                        <div class="member-body">
+                            <p>Developed the frontend structure, implemented HTML/CSS, and ensured project met all ICT requirements.</p>
+                            
+                            <div class="member-contributions">
+                                <h4>Key Contributions:</h4>
+                                <ul class="contributions-list">
+                                    <li>HTML structure and semantic markup</li>
+                                    <li>CSS styling and layout implementation</li>
+                                    <li>Bootstrap integration on register page</li>
+                                    <li>Form validation and interactivity</li>
+                                    <li>ICT project requirement compliance</li>
+                                    <li>GitHub repository management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Society Structure -->
+            <section class="structure-section">
+                <h2 class="section-title"><span class="title-icon"><i class="fas fa-sitemap"></i></span> Society Structure</h2>
+                <p class="section-subtitle">Organizational framework of University Tech Society</p>
+                
+                <div class="structure-grid">
+                    <div class="structure-card">
+                        <div class="structure-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3>President</h3>
+                        <p>Overall leadership and strategic direction of the society</p>
+                    </div>
+                    
+                    <div class="structure-card">
+                        <div class="structure-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <h3>Executive Board</h3>
+                        <p>Vice President, General Secretary, and Treasurer</p>
+                    </div>
+                    
+                    <div class="structure-card">
+                        <div class="structure-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Tech Department</h3>
+                        <p>Web development, technical workshops, and hackathons</p>
+                    </div>
+                    
+                    <div class="structure-card">
+                        <div class="structure-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <h3>Workshop Department</h3>
+                        <p>Skill development sessions and training programs</p>
+                    </div>
+                    
+                    <div class="structure-card">
+                        <div class="structure-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h3>Marketing Department</h3>
+                        <p>Promotion, social media, and event publicity</p>
+                    </div>
+                    
+                    <div class="structure-card">
+                        <div class="structure-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Outreach Department</h3>
+                        <p>Industry connections and partnership development</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Contact CTA -->
+            <section class="contact-cta">
+                <h2>Get Involved with University Tech Society</h2>
+                <p>Whether you want to join as a member, volunteer for events, or partner with us, we'd love to hear from you. Together we can build a stronger tech community.</p>
+                
+                <div class="cta-buttons">
+                    <a href="register.html" class="cta-button primary">
+                        <i class="fas fa-user-plus"></i> Join Our Society
+                    </a>
+                    <a href="../index.html#about-section" class="cta-button secondary">
+                        <i class="fas fa-envelope"></i> Contact Us
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="footer-logo-text">
+                        <h3>University Tech Society</h3>
+                        <p>Bahria University-Inspired Student Organization</p>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="events.html"><i class="fas fa-chevron-right"></i> Events</a></li>
+                        <li><a href="register.html"><i class="fas fa-chevron-right"></i> Register</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4 class="footer-heading">Contact Info</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Computer Science Department</li>
+                        <li><i class="fas fa-university"></i> Bahria University Campus</li>
+                        <li><i class="fas fa-envelope"></i> techsociety@bahria.edu.pk</li>
+                        <li><i class="fas fa-phone"></i> +92 51 111 111 111</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                </div>
+                
+                <div class="copyright">
+                    <p>&copy; 2024 University Tech Society. All rights reserved. | This website is created for ICT Semester Project.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem;">Developed by: Muhammad Ahmed, Ali Raza, Ayesha Khan, Sara Fatima</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript for basic interactivity -->
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.visibility = 'visible';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.visibility = 'hidden';
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Team member card interaction
+        document.querySelectorAll('.team-member-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const memberName = this.querySelector('.member-name').textContent;
+                const memberRole = this.querySelector('.member-role').textContent;
+                
+                // Create a simple popup effect
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+                
+                // Log to console for demonstration
+                console.log(`Selected team member: ${memberName} - ${memberRole}`);
+            });
+        });
+
+        // Smooth scrolling for CTA buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('.nav-menu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
