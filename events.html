@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Events | University Tech Society</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <style>
+        /* Additional styles specific to events page */
+        .events-header {
+            background: linear-gradient(rgba(11, 60, 93, 0.9), rgba(11, 60, 93, 0.95)),
+                        url('https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: var(--spacing-xl) 0;
+            margin-top: 70px;
+            text-align: center;
+            color: var(--white);
+        }
+        
+        .events-header h1 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .events-header p {
+            color: var(--light-grey);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .events-container {
+            padding: var(--spacing-xl) 0;
+        }
+        
+        .table-wrapper {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-medium);
+            overflow: hidden;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .events-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .events-table thead {
+            background-color: var(--navy-blue);
+            color: var(--white);
+        }
+        
+        .events-table th {
+            padding: var(--spacing-md) var(--spacing-sm);
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-bottom: 3px solid var(--accent-gold);
+        }
+        
+        .events-table th i {
+            margin-right: var(--spacing-xs);
+            color: var(--accent-gold);
+        }
+        
+        .events-table tbody tr {
+            transition: all var(--transition-fast);
+            border-bottom: 1px solid var(--medium-grey);
+        }
+        
+        .events-table tbody tr:nth-child(even) {
+            background-color: var(--light-grey);
+        }
+        
+        .events-table tbody tr:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .events-table td {
+            padding: var(--spacing-md) var(--spacing-sm);
+            color: var(--text-dark);
+        }
+        
+        .event-name {
+            font-weight: 600;
+            color: var(--navy-blue);
+        }
+        
+        .event-name i {
+            color: var(--accent-gold);
+            margin-right: var(--spacing-xs);
+        }
+        
+        .event-date {
+            color: var(--text-light);
+        }
+        
+        .event-venue {
+            color: var(--text-dark);
+        }
+        
+        .event-status {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .status-upcoming {
+            background-color: rgba(0, 123, 255, 0.1);
+            color: #007bff;
+            border: 1px solid rgba(0, 123, 255, 0.2);
+        }
+        
+        .status-ongoing {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-orange);
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+        
+        .status-completed {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-green);
+            border: 1px solid rgba(40, 167, 69, 0.2);
+        }
+        
+        .status-cancelled {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--error-red);
+            border: 1px solid rgba(220, 53, 69, 0.2);
+        }
+        
+        .events-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+        
+        .summary-card {
+            background: var(--white);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            transition: transform var(--transition-normal);
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .summary-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .summary-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--navy-blue);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .summary-label {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        
+        .table-note {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-sm);
+            background-color: var(--light-grey);
+            border-radius: var(--radius-md);
+        }
+        
+        @media (max-width: 768px) {
+            .events-header {
+                margin-top: 60px;
+                padding: var(--spacing-lg) 0;
+            }
+            
+            .events-header h1 {
+                font-size: 2rem;
+            }
+            
+            .table-wrapper {
+                overflow-x: auto;
+            }
+            
+            .events-table {
+                min-width: 700px;
+            }
+            
+            .events-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .events-summary {
+                grid-template-columns: 1fr;
+            }
+            
+            .events-table th,
+            .events-table td {
+                padding: var(--spacing-sm) var(--spacing-xs);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar (Same as index.html) -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>University Tech Society</h1>
+                    <p class="logo-subtitle">Inspired by Bahria University</p>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li class="nav-item"><a href="events.html" class="nav-link active"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li class="nav-item"><a href="register.html" class="nav-link"><i class="fas fa-user-plus"></i> Register</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Events Header -->
+    <header class="events-header">
+        <div class="container">
+            <h1><i class="fas fa-calendar-alt"></i> Tech Society Events</h1>
+            <p>Stay updated with our upcoming workshops, seminars, hackathons, and networking events. Join us to enhance your skills and connect with fellow tech enthusiasts.</p>
+        </div>
+    </header>
+
+    <!-- Main Events Content -->
+    <main class="events-container">
+        <div class="container">
+            <!-- Events Table Section -->
+            <section class="table-section">
+                <h2 class="section-title"><span class="title-icon"><i class="fas fa-table"></i></span> Upcoming & Past Events</h2>
+                <p class="section-subtitle">Browse through our scheduled events. Click on any event name for more details.</p>
+                
+                <div class="table-wrapper">
+                    <table class="events-table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-heading"></i> Event Name</th>
+                                <th><i class="fas fa-calendar-day"></i> Date</th>
+                                <th><i class="fas fa-map-marker-alt"></i> Venue</th>
+                                <th><i class="fas fa-info-circle"></i> Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="event-name">
+                                    <i class="fas fa-code"></i> Web Development Bootcamp
+                                </td>
+                                <td class="event-date">March 15-17, 2024</td>
+                                <td class="event-venue">Computer Lab 3, CS Department</td>
+                                <td>
+                                    <span class="event-status status-upcoming">Upcoming</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="event-name">
+                                    <i class="fas fa-robot"></i> AI & Machine Learning Workshop
+                                </td>
+                                <td class="event-date">March 22, 2024</td>
+                                <td class="event-venue">Auditorium Hall</td>
+                                <td>
+                                    <span class="event-status status-upcoming">Upcoming</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="event-name">
+                                    <i class="fas fa-users"></i> Tech Career Fair 2024
+                                </td>
+                                <td class="event-date">April 5, 2024</td>
+                                <td class="event-venue">Main Campus Ground</td>
+                                <td>
+                                    <span class="event-status status-upcoming">Upcoming</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="event-name">
+                                    <i class="fas fa-lock"></i> Cybersecurity Awareness Seminar
+                                </td>
+                                <td class="event-date">February 28, 2024</td>
+                                <td class="event-venue">Room 204, CS Building</td>
+                                <td>
+                                    <span class="event-status status-ongoing">Ongoing</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="event-name">
+                                    <i class="fas fa-mobile-alt"></i> Mobile App Development Workshop
+                                </td>
+                                <td class="event-date">February 20, 2024</td>
+                                <td class="event-venue">Tech Hub, Innovation Center</td>
+                                <td>
+                                    <span class="event-status status-completed">Completed</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="event-name">
+                                    <i class="fas fa-gamepad"></i> Annual Hackathon 2024
+                                </td>
+                                <td class="event-date">February 10-11, 2024</td>
+                                <td class="event-venue">Innovation Center</td>
+                                <td>
+                                    <span class="event-status status-completed">Completed</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="event-name">
+                                    <i class="fas fa-database"></i> Data Science Introduction
+                                </td>
+                                <td class="event-date">January 25, 2024</td>
+                                <td class="event-venue">Room 101, CS Department</td>
+                                <td>
+                                    <span class="event-status status-completed">Completed</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="event-name">
+                                    <i class="fas fa-cloud"></i> Cloud Computing Basics
+                                </td>
+                                <td class="event-date">January 18, 2024</td>
+                                <td class="event-venue">Online (Zoom Meeting)</td>
+                                <td>
+                                    <span class="event-status status-completed">Completed</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="event-name">
+                                    <i class="fas fa-paint-brush"></i> UI/UX Design Principles
+                                </td>
+                                <td class="event-date">January 10, 2024</td>
+                                <td class="event-venue">Design Lab, Arts Building</td>
+                                <td>
+                                    <span class="event-status status-completed">Completed</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="event-name">
+                                    <i class="fas fa-network-wired"></i> Networking Fundamentals
+                                </td>
+                                <td class="event-date">December 20, 2023</td>
+                                <td class="event-venue">Lab 5, Network Department</td>
+                                <td>
+                                    <span class="event-status status-completed">Completed</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <p class="table-note">
+                    <i class="fas fa-info-circle"></i> Note: This table demonstrates proper HTML table structure with semantic tags (&lt;table&gt;, &lt;tr&gt;, &lt;th&gt;, &lt;td&gt;). 
+                    It includes responsive design and hover effects as per ICT project requirements.
+                </p>
+            </section>
+            
+            <!-- Events Summary Cards -->
+            <section class="summary-section">
+                <h2 class="section-title"><span class="title-icon"><i class="fas fa-chart-pie"></i></span> Events Summary</h2>
+                
+                <div class="events-summary">
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="summary-number">12</div>
+                        <div class="summary-label">Total Events This Year</div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="summary-number">3</div>
+                        <div class="summary-label">Upcoming Events</div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="summary-number">450+</div>
+                        <div class="summary-label">Total Participants</div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="summary-number">8</div>
+                        <div class="summary-label">Completed Workshops</div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- How to Participate Section -->
+            <section class="participation-section">
+                <div class="purpose-card" style="margin-top: var(--spacing-xl);">
+                    <div class="card-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3 class="card-title">How to Participate in Events</h3>
+                    <p class="card-text">
+                        1. Check the events table for upcoming activities<br>
+                        2. Register for your preferred event using our registration form<br>
+                        3. Receive confirmation email with event details<br>
+                        4. Attend the event and participate actively<br>
+                        5. Share your feedback to help us improve
+                    </p>
+                    <a href="register.html" class="submit-button" style="width: auto; margin-top: var(--spacing-md);">
+                        <i class="fas fa-user-plus"></i> Register for Events
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="footer-logo-text">
+                        <h3>University Tech Society</h3>
+                        <p>Bahria University-Inspired Student Organization</p>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="events.html"><i class="fas fa-chevron-right"></i> Events</a></li>
+                        <li><a href="register.html"><i class="fas fa-chevron-right"></i> Register</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4 class="footer-heading">Contact Info</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Computer Science Department</li>
+                        <li><i class="fas fa-university"></i> Bahria University Campus</li>
+                        <li><i class="fas fa-envelope"></i> techsociety@bahria.edu.pk</li>
+                        <li><i class="fas fa-phone"></i> +92 51 111 111 111</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                </div>
+                
+                <div class="copyright">
+                    <p>&copy; 2024 University Tech Society. All rights reserved. | This website is created for ICT Semester Project.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript for basic interactivity -->
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.visibility = 'visible';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.visibility = 'hidden';
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Table row click effect (for demonstration)
+        document.querySelectorAll('.events-table tbody tr').forEach(row => {
+            row.addEventListener('click', function() {
+                const eventName = this.querySelector('.event-name').textContent.trim();
+                alert(`You selected: ${eventName}\n\nThis is a demonstration of JavaScript interactivity. In a real application, this would navigate to event details.`);
+            });
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('.nav-menu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

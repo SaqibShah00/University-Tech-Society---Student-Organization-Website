@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration | University Tech Society</title>
+    
+    <!-- Bootstrap CSS (ONLY used on this page as per project rules) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Main CSS file -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <style>
+        /* Custom styles for registration page */
+        .registration-header {
+            background: linear-gradient(rgba(11, 60, 93, 0.9), rgba(11, 60, 93, 0.95)),
+                        url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: var(--spacing-xl) 0;
+            margin-top: 70px;
+            text-align: center;
+            color: var(--white);
+        }
+        
+        .registration-header h1 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .registration-header p {
+            color: var(--light-grey);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .registration-container {
+            padding: var(--spacing-xl) 0;
+        }
+        
+        /* Custom form styling with Bootstrap */
+        .registration-form-container {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-heavy);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .form-section-title {
+            color: var(--navy-blue);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--light-grey);
+            font-size: 1.5rem;
+        }
+        
+        .form-section-title i {
+            color: var(--accent-gold);
+            margin-right: var(--spacing-sm);
+        }
+        
+        /* Custom Bootstrap form styling */
+        .form-label {
+            color: var(--navy-blue);
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .form-label i {
+            color: var(--accent-gold);
+            margin-right: var(--spacing-xs);
+            width: 20px;
+        }
+        
+        .form-control, .form-select {
+            padding: var(--spacing-sm);
+            border: 2px solid var(--medium-grey);
+            border-radius: var(--radius-md);
+            font-family: var(--font-secondary);
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+        
+        .form-check-input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+        }
+        
+        .form-check-label {
+            color: var(--text-dark);
+        }
+        
+        .btn-register {
+            background-color: var(--navy-blue);
+            color: var(--white);
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-xl);
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-normal);
+            width: 100%;
+            margin-top: var(--spacing-md);
+        }
+        
+        .btn-register:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .btn-register i {
+            margin-right: var(--spacing-xs);
+        }
+        
+        /* Registration Steps */
+        .registration-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+        }
+        
+        .registration-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--medium-grey);
+            z-index: 1;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            background-color: var(--white);
+            border: 3px solid var(--medium-grey);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-sm);
+            font-weight: 700;
+            color: var(--text-light);
+            transition: all var(--transition-normal);
+        }
+        
+        .step.active .step-circle {
+            background-color: var(--accent-gold);
+            border-color: var(--accent-gold);
+            color: var(--navy-blue);
+        }
+        
+        .step.completed .step-circle {
+            background-color: var(--success-green);
+            border-color: var(--success-green);
+            color: var(--white);
+        }
+        
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .step.active .step-label {
+            color: var(--navy-blue);
+            font-weight: 600;
+        }
+        
+        /* Registration Info Cards */
+        .info-cards {
+            margin-top: var(--spacing-xl);
+        }
+        
+        .info-card {
+            border: none;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-light);
+            transition: all var(--transition-normal);
+            height: 100%;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .info-card .card-header {
+            background-color: var(--navy-blue);
+            color: var(--white);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+            font-weight: 600;
+            padding: var(--spacing-md);
+        }
+        
+        .info-card .card-header i {
+            color: var(--accent-gold);
+            margin-right: var(--spacing-sm);
+        }
+        
+        .info-card .card-body {
+            padding: var(--spacing-lg);
+        }
+        
+        .info-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .info-list li {
+            padding: var(--spacing-xs) 0;
+            color: var(--text-light);
+        }
+        
+        .info-list li i {
+            color: var(--accent-gold);
+            margin-right: var(--spacing-sm);
+        }
+        
+        /* Form Note */
+        .form-note-bootstrap {
+            background-color: var(--light-grey);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+            border-left: 4px solid var(--accent-gold);
+        }
+        
+        .form-note-bootstrap i {
+            color: var(--accent-gold);
+            margin-right: var(--spacing-xs);
+        }
+        
+        @media (max-width: 768px) {
+            .registration-header {
+                margin-top: 60px;
+                padding: var(--spacing-lg) 0;
+            }
+            
+            .registration-header h1 {
+                font-size: 2rem;
+            }
+            
+            .registration-steps {
+                flex-direction: column;
+                gap: var(--spacing-lg);
+            }
+            
+            .registration-steps::before {
+                display: none;
+            }
+            
+            .registration-form-container {
+                padding: var(--spacing-lg);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .registration-form-container {
+                padding: var(--spacing-md);
+            }
+            
+            .form-section-title {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar (Same as other pages) -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>University Tech Society</h1>
+                    <p class="logo-subtitle">Inspired by Bahria University</p>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li class="nav-item"><a href="events.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                <li class="nav-item"><a href="register.html" class="nav-link active"><i class="fas fa-user-plus"></i> Register</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Header -->
+    <header class="registration-header">
+        <div class="container">
+            <h1><i class="fas fa-user-plus"></i> Event Registration</h1>
+            <p>Register for upcoming University Tech Society events. Fill out the form below to secure your spot at our workshops, seminars, and networking events.</p>
+        </div>
+    </header>
+
+    <!-- Main Registration Content -->
+    <main class="registration-container">
+        <div class="container">
+            <!-- Registration Steps -->
+            <div class="registration-steps">
+                <div class="step completed">
+                    <div class="step-circle">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="step-label">Select Event</div>
+                </div>
+                <div class="step active">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Personal Info</div>
+                </div>
+                <div class="step">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Confirmation</div>
+                </div>
+            </div>
+            
+            <!-- Registration Form -->
+            <div class="registration-form-container">
+                <h2 class="form-section-title">
+                    <i class="fas fa-clipboard-list"></i> Registration Form
+                </h2>
+                
+                <form id="registrationForm" class="needs-validation" novalidate>
+                    <!-- Personal Information Section -->
+                    <div class="mb-4">
+                        <h3 class="mb-3" style="color: var(--navy-blue);">
+                            <i class="fas fa-user-circle"></i> Personal Information
+                        </h3>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">
+                                    <i class="fas fa-user"></i> First Name
+                                </label>
+                                <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
+                                <div class="invalid-feedback">
+                                    Please provide your first name.
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">
+                                    <i class="fas fa-user"></i> Last Name
+                                </label>
+                                <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required>
+                                <div class="invalid-feedback">
+                                    Please provide your last name.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope"></i> Email Address
+                                </label>
+                                <input type="email" class="form-control" id="email" placeholder="example@bahria.edu.pk" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid email address.
+                                </div>
+                                <div class="form-text">We'll send confirmation to this email.</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">
+                                    <i class="fas fa-phone"></i> Phone Number
+                                </label>
+                                <input type="tel" class="form-control" id="phone" placeholder="03XX-XXXXXXX" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid phone number.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="studentId" class="form-label">
+                                    <i class="fas fa-id-card"></i> Student ID
+                                </label>
+                                <input type="text" class="form-control" id="studentId" placeholder="BU-XXXXXX" required>
+                                <div class="invalid-feedback">
+                                    Please provide your student ID.
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="department" class="form-label">
+                                    <i class="fas fa-graduation-cap"></i> Department
+                                </label>
+                                <select class="form-select" id="department" required>
+                                    <option value="" selected disabled>Select your department</option>
+                                    <option value="cs">Computer Science</option>
+                                    <option value="se">Software Engineering</option>
+                                    <option value="it">Information Technology</option>
+                                    <option value="cyber">Cybersecurity</option>
+                                    <option value="ds">Data Science</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select your department.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Event Selection Section -->
+                    <div class="mb-4">
+                        <h3 class="mb-3" style="color: var(--navy-blue);">
+                            <i class="fas fa-calendar-check"></i> Event Selection
+                        </h3>
+                        
+                        <div class="mb-3">
+                            <label for="eventSelect" class="form-label">
+                                <i class="fas fa-calendar-alt"></i> Select Event
+                            </label>
+                            <select class="form-select" id="eventSelect" required>
+                                <option value="" selected disabled>Choose an event to register</option>
+                                <option value="web-dev">Web Development Bootcamp (March 15-17, 2024)</option>
+                                <option value="ai-workshop">AI & Machine Learning Workshop (March 22, 2024)</option>
+                                <option value="career-fair">Tech Career Fair 2024 (April 5, 2024)</option>
+                                <option value="cyber-security">Cybersecurity Awareness Seminar (February 28, 2024)</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select an event.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-user-tag"></i> Registration Type
+                            </label>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="userType" id="student" value="student" checked required>
+                                    <label class="form-check-label" for="student">
+                                        Student
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="userType" id="guest" value="guest" required>
+                                    <label class="form-check-label" for="guest">
+                                        Guest
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="userType" id="faculty" value="faculty" required>
+                                    <label class="form-check-label" for="faculty">
+                                        Faculty Member
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="attendees" class="form-label">
+                                <i class="fas fa-users"></i> Number of Attendees
+                            </label>
+                            <select class="form-select" id="attendees" required>
+                                <option value="1" selected>1 (Just me)</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Information -->
+                    <div class="mb-4">
+                        <h3 class="mb-3" style="color: var(--navy-blue);">
+                            <i class="fas fa-comment-alt"></i> Additional Information
+                        </h3>
+                        
+                        <div class="mb-3">
+                            <label for="dietary" class="form-label">
+                                <i class="fas fa-utensils"></i> Dietary Requirements (if any)
+                            </label>
+                            <input type="text" class="form-control" id="dietary" placeholder="e.g., Vegetarian, Halal only, etc.">
+                            <div class="form-text">Optional - For events with food arrangements.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="comments" class="form-label">
+                                <i class="fas fa-sticky-note"></i> Additional Comments
+                            </label>
+                            <textarea class="form-control" id="comments" rows="3" placeholder="Any special requests or comments..."></textarea>
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="newsletter" checked>
+                            <label class="form-check-label" for="newsletter">
+                                Subscribe to Tech Society newsletter for updates on future events
+                            </label>
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="terms" required>
+                            <label class="form-check-label" for="terms">
+                                I agree to the <a href="#" style="color: var(--accent-gold);">Terms and Conditions</a> of the University Tech Society
+                            </label>
+                            <div class="invalid-feedback">
+                                You must agree before submitting.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-register">
+                        <i class="fas fa-paper-plane"></i> Complete Registration
+                    </button>
+                </form>
+                
+                <!-- Form Note -->
+                <div class="form-note-bootstrap">
+                    <p class="mb-0">
+                        <i class="fas fa-info-circle"></i> <strong>Important Note:</strong> This is a demonstration form for ICT project purposes only. 
+                        No actual data will be submitted or stored (no backend/database as per project requirements). 
+                        Bootstrap is used only on this page as specified in project guidelines.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Information Cards -->
+            <div class="info-cards">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card info-card">
+                            <div class="card-header">
+                                <i class="fas fa-question-circle"></i> Why Register?
+                            </div>
+                            <div class="card-body">
+                                <ul class="info-list">
+                                    <li><i class="fas fa-check"></i> Secure your spot in limited-seating events</li>
+                                    <li><i class="fas fa-check"></i> Receive event reminders and updates</li>
+                                    <li><i class="fas fa-check"></i> Access event materials and resources</li>
+                                    <li><i class="fas fa-check"></i> Get certificates of participation</li>
+                                    <li><i class="fas fa-check"></i> Network with fellow participants</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card info-card">
+                            <div class="card-header">
+                                <i class="fas fa-clock"></i> What Happens Next?
+                            </div>
+                            <div class="card-body">
+                                <ul class="info-list">
+                                    <li><i class="fas fa-envelope"></i> Confirmation email within 24 hours</li>
+                                    <li><i class="fas fa-calendar-day"></i> Event details and schedule</li>
+                                    <li><i class="fas fa-map-marker-alt"></i> Venue information and directions</li>
+                                    <li><i class="fas fa-tasks"></i> Pre-event preparation materials</li>
+                                    <li><i class="fas fa-phone"></i> Contact for any queries</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card info-card">
+                            <div class="card-header">
+                                <i class="fas fa-exclamation-circle"></i> Important Notes
+                            </div>
+                            <div class="card-body">
+                                <ul class="info-list">
+                                    <li><i class="fas fa-user-times"></i> Cancel at least 24 hours before event</li>
+                                    <li><i class="fas fa-id-card"></i> Bring student ID for verification</li>
+                                    <li><i class="fas fa-clock"></i> Arrive 15 minutes before start time</li>
+                                    <li><i class="fas fa-laptop"></i> Bring laptop for hands-on workshops</li>
+                                    <li><i class="fas fa-comments"></i> Participation certificate upon completion</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Same as other pages) -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="footer-logo-text">
+                        <h3>University Tech Society</h3>
+                        <p>Bahria University-Inspired Student Organization</p>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="events.html"><i class="fas fa-chevron-right"></i> Events</a></li>
+                        <li><a href="register.html"><i class="fas fa-chevron-right"></i> Register</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4 class="footer-heading">Contact Info</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Computer Science Department</li>
+                        <li><i class="fas fa-university"></i> Bahria University Campus</li>
+                        <li><i class="fas fa-envelope"></i> techsociety@bahria.edu.pk</li>
+                        <li><i class="fas fa-phone"></i> +92 51 111 111 111</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                </div>
+                
+                <div class="copyright">
+                    <p>&copy; 2024 University Tech Society. All rights reserved. | This website is created for ICT Semester Project.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript for form validation and interactivity -->
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.visibility = 'visible';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.visibility = 'hidden';
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Bootstrap Form Validation
+        (function() {
+            'use strict';
+            
+            // Fetch the form we want to apply validation to
+            const form = document.getElementById('registrationForm');
+            
+            // Add event listener for form submission
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    event.preventDefault(); // Prevent actual submission (no backend)
+                    
+                    // Show success message
+                    const firstName = document.getElementById('firstName').value;
+                    const eventName = document.getElementById('eventSelect').options[document.getElementById('eventSelect').selectedIndex].text;
+                    
+                    alert(`Thank you ${firstName}!\n\nYou have successfully registered for:\n"${eventName}"\n\nA confirmation email has been sent to your provided email address.\n\nNote: This is a simulation for the ICT project. No actual registration has been processed.`);
+                    
+                    // Reset form after successful "submission"
+                    form.reset();
+                    form.classList.remove('was-validated');
+                    
+                    // Update registration steps
+                    document.querySelectorAll('.step').forEach(step => {
+                        step.classList.remove('active', 'completed');
+                    });
+                    document.querySelectorAll('.step')[2].classList.add('active');
+                    
+                    return false;
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+            
+            // Real-time validation for email field
+            const emailField = document.getElementById('email');
+            emailField.addEventListener('input', function() {
+                if (emailField.validity.typeMismatch) {
+                    emailField.setCustomValidity('Please enter a valid email address (e.g., name@bahria.edu.pk)');
+                } else {
+                    emailField.setCustomValidity('');
+                }
+            });
+            
+            // Real-time validation for student ID field
+            const studentIdField = document.getElementById('studentId');
+            studentIdField.addEventListener('input', function() {
+                const idPattern = /^BU-\d{6}$/;
+                if (!idPattern.test(studentIdField.value)) {
+                    studentIdField.setCustomValidity('Please enter a valid student ID in format BU-XXXXXX');
+                } else {
+                    studentIdField.setCustomValidity('');
+                }
+            });
+            
+            // Update steps on form interaction
+            document.querySelectorAll('.form-control, .form-select, .form-check-input').forEach(element => {
+                element.addEventListener('input', function() {
+                    // Mark step 2 as completed when user starts filling
+                    document.querySelectorAll('.step')[1].classList.add('completed');
+                });
+            });
+        })();
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('.nav-menu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
